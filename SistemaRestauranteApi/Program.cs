@@ -1,8 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using SistemaRestauranteApi.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+var conexionLocal = builder.Configuration.GetConnectionString("RestauranteConection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(conexionLocal)
+);
+
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
