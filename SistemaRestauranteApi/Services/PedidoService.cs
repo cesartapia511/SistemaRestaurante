@@ -111,7 +111,7 @@ public class PedidoService : IPedidoService
         return new PedidoResponseDto()
         {
             Id = existe.Id,
-            Fecha = existe.Fecha,
+            Fecha = DateOnly.FromDateTime(existe.Fecha),
             Estado = existe.Estado,
             Total = existe.Total,
             MetodoPago = existe.MetodoPago,
@@ -148,7 +148,7 @@ public class PedidoService : IPedidoService
                                     .Select(p => new PedidoResponseDto()
                                     {
                                         Id = p.Id,
-                                        Fecha = p.Fecha,
+                                        Fecha = DateOnly.FromDateTime(p.Fecha),
                                         Estado = p.Estado,
                                         Total = p.Total,
                                         MetodoPago = p.MetodoPago,
@@ -182,7 +182,7 @@ public class PedidoService : IPedidoService
                                     .Select(p => new PedidoResponseDto()
                                     {
                                         Id = p.Id,
-                                        Fecha = p.Fecha,
+                                        Fecha = DateOnly.FromDateTime(p.Fecha),
                                         Estado = p.Estado,
                                         Total = p.Total,
                                         MetodoPago = p.MetodoPago,
@@ -216,7 +216,7 @@ public class PedidoService : IPedidoService
                                     .Select(p => new PedidoResponseDto()
                                     {
                                         Id = p.Id,
-                                        Fecha = p.Fecha,
+                                        Fecha = DateOnly.FromDateTime(p.Fecha),
                                         Estado = p.Estado,
                                         Total = p.Total,
                                         MetodoPago = p.MetodoPago,
@@ -372,7 +372,7 @@ public class PedidoService : IPedidoService
                                     .Select(p => new PedidoResponseDto()
                                     {
                                         Id = p.Id,
-                                        Fecha = p.Fecha,
+                                        Fecha = DateOnly.FromDateTime(p.Fecha),
                                         Estado = p.Estado,
                                         Total = p.Total,
                                         MetodoPago = p.MetodoPago,

@@ -3,7 +3,7 @@ namespace SistemaRestauranteApi.DTOs;
 public class PedidoResponseDto
 {
     public int Id { get; set; }
-    public DateTime Fecha { get; set; }
+    public DateOnly Fecha { get; set; }
     public string Estado { get; set; } = string.Empty;
     public decimal Total { get; set; }
     public string? MetodoPago { get; set; }
