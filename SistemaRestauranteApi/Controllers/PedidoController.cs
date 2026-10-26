@@ -40,9 +40,9 @@ public class PedidoController : ControllerBase
     }
 
     [HttpPatch("{id:int}")] //Por URL
-    public async Task<PedidoResponseDto?> ActualizarPedidoAsync(int id, PedidoRequestDto categoria)
+    public async Task<PedidoResponseDto?> ActualizarPedidoAsync(int id, PedidoRequestDto pedido)
     {
-        return await _pedidoService.ActualizarPedidoAsync(id, categoria);
+        return await _pedidoService.ActualizarPedidoAsync(id, pedido);
     }
 
     [HttpGet("mesa/{mesaId:int}")]

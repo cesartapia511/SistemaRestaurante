@@ -8,7 +8,7 @@ public interface IPedidoService
 
     Task<PedidoResponseDto?> BuscarPedidoPorIdAsync(int id);
 
-    Task<PedidoResponseDto> CrearPedidoAsync(PedidoRequestDto pedido);
+    Task<PedidoResponseDto?> CrearPedidoAsync(PedidoRequestDto pedido);
 
     Task<PedidoResponseDto?> ActualizarPedidoAsync(int id, PedidoRequestDto pedido);
 
@@ -21,4 +21,5 @@ public interface IPedidoService
     Task<List<PedidoResponseDto>> BuscarPorFechaAsync(DateTime fecha);
 
     Task<List<PedidoResponseDto>> BuscarPorMetodoPagoAsync(string metodoPago);
+    
 }
