@@ -21,6 +21,7 @@ namespace SistemaRestauranteApi.Services
             return await _context.Set<Categoria>()
                 .Select(c => new CategoriaResponseDto
                 {
+                    Id = c.Id,
                     Nombre = c.Nombre,
                     Descripcion = c.Descripcion,
                     Estado = c.Estado
@@ -34,6 +35,7 @@ namespace SistemaRestauranteApi.Services
                 .Where(c => c.Id == id)
                 .Select(c => new CategoriaResponseDto
                 {
+                    Id = c.Id,
                     Nombre = c.Nombre,
                     Descripcion = c.Descripcion,
                     Estado = c.Estado

@@ -5,7 +5,7 @@ using SistemaRestauranteApi.Interfaces;
 namespace SistemaRestauranteApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/productos")]
     public class ProductoController : ControllerBase
     {
         private readonly IProductoService _productoService;

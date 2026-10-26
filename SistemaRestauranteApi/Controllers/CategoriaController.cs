@@ -5,7 +5,7 @@ using SistemaRestauranteApi.Interfaces;
 namespace SistemaRestauranteApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/categorias")]
     public class CategoriaController : ControllerBase
     {
         private readonly ICategoriaService _categoriaService;

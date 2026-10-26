@@ -45,4 +45,28 @@ public class PedidoController : ControllerBase
         return await _pedidoService.ActualizarPedidoAsync(id, categoria);
     }
 
+    [HttpGet("mesa/{mesaId:int}")]
+    public async Task<List<PedidoResponseDto>> BuscarPorMesaAsync(int mesaId)
+    {
+        return await _pedidoService.BuscarPorMesaAsync(mesaId);
+    }
+
+    [HttpGet("por-fecha")]
+    public async Task<List<PedidoResponseDto>> BuscarPorFechaAsync(DateTime fecha)
+    {
+        return await _pedidoService.BuscarPorFechaAsync(fecha);
+    }
+
+    [HttpGet("por-metodo-pago")]
+    public async Task<List<PedidoResponseDto>> BuscarPorMetodoPagoAsync(string metodoPago)
+    {
+        return await _pedidoService.BuscarPorMetodoPagoAsync(metodoPago);
+    }
+
+    [HttpPatch("{id:int}/estado")]
+    public async Task<PedidoResponseDto?> CambiarEstadoAsync(int id, PedidoEstadoRequestDto pedidoEstado)
+    {
+        return await _pedidoService.CambiarEstadoAsync(id, pedidoEstado);
+    }
+
 }
