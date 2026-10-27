@@ -14,10 +14,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(conexionLocal)
 );
 
-builder.Services.AddScoped<ICategoriaService, CategoriaService>();
-builder.Services.AddScoped<IProductoService, ProductoService>();
-builder.Services.AddScoped<IClienteService, ClienteService>();
-builder.Services.AddScoped<IMesaService, MesaService>();
+builder.Services.AddScoped<CategoriaService>();
+builder.Services.AddScoped<ProductoService>();
+builder.Services.AddScoped<ClienteService>();
+builder.Services.AddScoped<MesaService>();
 
 builder.Services.AddScoped<PedidoService>();
 

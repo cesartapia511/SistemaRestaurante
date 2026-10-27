@@ -1,6 +1,8 @@
 
 using Microsoft.AspNetCore.Mvc;
+using SistemaRestauranteApi.DTOs;
 using SistemaRestauranteApi.Interfaces;
+using SistemaRestauranteApi.Services;
 
 namespace SistemaRestauranteApi.Controllers
 {
@@ -8,31 +10,42 @@ namespace SistemaRestauranteApi.Controllers
     [Route("api/v1/categorias")]
     public class CategoriaController : ControllerBase
     {
-        private readonly ICategoriaService _categoriaService;
+        private readonly CategoriaService _categoriaService;
 
-        public CategoriaController(ICategoriaService categoriaService)
+        public CategoriaController(CategoriaService categoriaService)
         {
             _categoriaService = categoriaService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<List<CategoriaResponseDto>> ObtenerTodos()
         {
-            var categorias = await _categoriaService.GetAllAsync();
-            return Ok(categorias);
+            return await _categoriaService.ObtenerTodosAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<CategoriaResponseDto> BuscarCategoriaId(int id)
         {
-            var categoria = await _categoriaService.GetByIdAsync(id);
+            return await _categoriaService.BuscarCategoriaPorIdAsync(id);
+        }
 
-            if (categoria == null)
-            {
-                return NotFound();
-            }
 
-            return Ok(categoria);
+        [HttpDelete("{id:int}")]
+        public async Task<bool> EliminarCategoria(int id)
+        {
+            return await _categoriaService.EliminarCategoriaAsync(id);
+        }
+
+        [HttpPost]
+        public async Task<CategoriaResponseDto> CrearCategoria(CategoriaRequestDto categoria)
+        {
+            return await _categoriaService.CrearCategoriaAsync(categoria);
+        }
+
+        [HttpPatch("{id:int}")] //Por URL
+        public async Task<CategoriaResponseDto> ActualizarCategoria(int id, CategoriaRequestDto categoria)
+        {
+            return await _categoriaService.ActualizarCategoria(id, categoria);
         }
     }
 }

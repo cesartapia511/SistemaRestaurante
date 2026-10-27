@@ -9,5 +9,6 @@ namespace SistemaRestauranteApi.DTOs
         public decimal Precio { get; set; }
         public bool Disponible { get; set; }
         public int CategoriaId { get; set; }
+        public string NombreCategoria { get; set; } = string.Empty;
     }
 }

@@ -5,7 +5,14 @@ namespace SistemaRestauranteApi.Interfaces
 {
     public interface ICategoriaService
     {
-        Task<IEnumerable<CategoriaResponseDto>> GetAllAsync();
-        Task<CategoriaResponseDto?> GetByIdAsync(int id);
+        Task<List<CategoriaResponseDto>> ObtenerTodosAsync();
+
+        Task<CategoriaResponseDto> CrearCategoriaAsync(CategoriaRequestDto categoria);
+
+        Task<CategoriaResponseDto> ActualizarCategoria(int id, CategoriaRequestDto categoria);
+
+        Task<bool> EliminarCategoriaAsync(int id);
+
+        Task<CategoriaResponseDto> BuscarCategoriaPorIdAsync(int id);
     }
 }
