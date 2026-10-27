@@ -1,0 +1,164 @@
+:host {
+  display: block;
+  max-width: 1280px;
+  min-height: calc(100vh - 82px);
+  margin: 0 auto;
+  padding: 44px 32px;
+  color: #f5f2eb;
+}
+
+h2 {
+  margin: 0 0 28px;
+  color: #f2b51d;
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+input[type="text"] {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  min-height: 50px;
+  margin-bottom: 26px;
+  padding: 13px 17px;
+  border: 1px solid #39352c;
+  border-radius: 10px;
+  outline: none;
+  background: #1b1b1b;
+  color: #ffffff;
+  font-size: 15px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]::placeholder {
+  color: #99958b;
+}
+
+input[type="text"]:focus {
+  border-color: #f2b51d;
+  box-shadow: 0 0 0 3px rgb(242 181 29 / 12%);
+}
+
+
+div.flex.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+div.flex.flex-wrap button {
+  padding: 10px 18px;
+  border: 1px solid #39352c;
+  border-radius: 8px;
+  background: #202020;
+  color: #e9e5dc;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+div.flex.flex-wrap button:hover {
+  border-color: #f2b51d;
+  color: #f2b51d;
+}
+
+
+div.flex.flex-wrap button.bg-blue-500 {
+  border-color: #f2b51d;
+  background: #f2b51d;
+  color: #171717;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.grid > div {
+  overflow: hidden;
+  padding: 24px;
+  border: 1px solid #34312a;
+  border-radius: 14px;
+  background: #1b1b1b;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
+  transition: transform 0.25s, border-color 0.25s;
+}
+
+.grid > div:hover {
+  transform: translateY(-4px);
+  border-color: #9b7520;
+}
+
+.grid h3 {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.grid p {
+  color: #b8b4aa;
+  line-height: 1.7;
+}
+
+.grid p:last-child {
+  margin-top: 18px;
+  color: #f2b51d;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+
+p.text-gray-500 {
+  padding: 32px 20px;
+  border: 1px dashed #494235;
+  border-radius: 12px;
+  background: #191919;
+  color: #c0bcb2;
+  text-align: center;
+}
+
+
+@media (max-width: 900px) {
+  :host {
+    padding: 32px 22px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  :host {
+    padding: 28px 16px;
+  }
+
+  h2 {
+    margin-bottom: 22px;
+  }
+
+  input[type="text"] {
+    max-width: none;
+  }
+
+  div.flex.flex-wrap {
+    gap: 8px;
+  }
+
+  div.flex.flex-wrap button {
+    padding: 9px 12px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .grid > div {
+    padding: 20px;
+  }
+}
