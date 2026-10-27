@@ -180,6 +180,9 @@ namespace SistemaRestauranteApi.Migrations
                     b.Property<bool>("Disponible")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("ImagenUrl")
+                        .HasColumnType("text");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("text");

@@ -1,6 +1,8 @@
 
 using Microsoft.AspNetCore.Mvc;
+using SistemaRestauranteApi.DTOs;
 using SistemaRestauranteApi.Interfaces;
+using SistemaRestauranteApi.Services;
 
 namespace SistemaRestauranteApi.Controllers
 {
@@ -8,31 +10,43 @@ namespace SistemaRestauranteApi.Controllers
     [Route("api/v1/productos")]
     public class ProductoController : ControllerBase
     {
-        private readonly IProductoService _productoService;
+        private readonly ProductoService _productoService;
 
-        public ProductoController(IProductoService productoService)
+        public ProductoController(ProductoService productoService)
         {
             _productoService = productoService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<List<ProductoResponseDto>> ObtenerTodos()
         {
-            var productos = await _productoService.GetAllAsync();
-            return Ok(productos);
+            return await _productoService.ObtenerTodosAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ProductoResponseDto?> BuscarProductoPorId(int id)
         {
-            var producto = await _productoService.GetByIdAsync(id);
-
-            if (producto == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(producto);
+            return await _productoService.BuscarProductoPorIdAsync(id);
         }
+
+        [HttpPost]
+        public async Task<ProductoResponseDto?> CrearProducto(ProductoRequestDto producto)
+        {
+            return await _productoService.CrearProductoAsync(producto);
+        }
+
+        [HttpPatch("{id:int}")]
+        public async Task<ProductoResponseDto?> ActualizarProducto(int id, ProductoRequestDto producto)
+        {
+            return await _productoService.ActualizarProducto(id, producto);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<bool> EliminarProducto(int id)
+        {
+            return await _productoService.EliminarAsync(id);
+        }
+
+        
     }
 }

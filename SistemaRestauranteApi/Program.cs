@@ -18,7 +18,6 @@ builder.Services.AddScoped<CategoriaService>();
 builder.Services.AddScoped<ProductoService>();
 builder.Services.AddScoped<ClienteService>();
 builder.Services.AddScoped<MesaService>();
-
 builder.Services.AddScoped<PedidoService>();
 
 builder.Services.AddOpenApi();
