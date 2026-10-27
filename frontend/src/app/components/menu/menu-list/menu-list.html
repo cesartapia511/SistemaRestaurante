@@ -1,7 +1,117 @@
 
 <h2 class="text-2xl font-bold mb-4">Menú</h2>
 
-<!-- Buscador de platillos -->
+<div class="border rounded p-4 shadow-sm mb-6">
+  <h3 class="text-lg font-bold mb-3">Registrar nuevo platillo</h3>
+
+  <form (submit)="$event.preventDefault(); registrarProducto()">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+      <div>
+        <label for="producto-nombre" class="block mb-1">
+          Nombre del platillo
+        </label>
+        <input
+          id="producto-nombre"
+          type="text"
+          maxlength="50"
+          required
+          class="border rounded p-2 w-full"
+          placeholder="Nombre del platillo"
+          [value]="nuevoNombre()"
+          (input)="onNuevoNombre($event)"
+        />
+      </div>
+
+      <div>
+        <label for="producto-precio" class="block mb-1">
+          Precio (Bs)
+        </label>
+        <input
+          id="producto-precio"
+          type="number"
+          min="1"
+          max="1000"
+          step="0.01"
+          required
+          class="border rounded p-2 w-full"
+          [value]="nuevoPrecio()"
+          (input)="onNuevoPrecio($event)"
+        />
+      </div>
+
+      <div>
+        <label for="producto-categoria" class="block mb-1">
+          Categoría
+        </label>
+        <select
+          id="producto-categoria"
+          required
+          class="border rounded p-2 w-full"
+          [value]="nuevaCategoriaId() ?? ''"
+          (change)="onNuevaCategoria($event)"
+        >
+          <option value="">Selecciona una categoría</option>
+          @for (categoria of categorias(); track categoria.id) {
+            <option [value]="categoria.id">
+              {{ categoria.nombre }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label for="producto-imagen" class="block mb-1">
+          URL de la fotografía (opcional)
+        </label>
+        <input
+          id="producto-imagen"
+          type="url"
+          class="border rounded p-2 w-full"
+          placeholder="https://ejemplo.com/imagen.jpg"
+          [value]="nuevaImagenUrl()"
+          (input)="onNuevaImagenUrl($event)"
+        />
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="producto-descripcion" class="block mb-1">
+        Descripción (opcional)
+      </label>
+      <textarea
+        id="producto-descripcion"
+        rows="3"
+        class="border rounded p-2 w-full"
+        placeholder="Describe los ingredientes del platillo"
+        [value]="nuevaDescripcion()"
+        (input)="onNuevaDescripcion($event)"
+      ></textarea>
+    </div>
+
+    <button
+      type="submit"
+      class="bg-blue-600 text-white px-4 py-2 rounded"
+      [disabled]="guardandoProducto()"
+    >
+      {{ guardandoProducto() ? 'Guardando...' : 'Registrar platillo' }}
+    </button>
+  </form>
+
+  @if (mensajeProducto()) {
+    <p class="mt-3 text-green-700" role="status">
+      {{ mensajeProducto() }}
+    </p>
+  }
+
+  @if (errorProducto()) {
+    <p class="mt-3 text-red-600" role="alert">
+      {{ errorProducto() }}
+    </p>
+  }
+</div>
+
+<h3 class="text-xl font-bold mb-3">Platillos disponibles</h3>
+
 <input
   type="text"
   placeholder="Buscar platillo..."
@@ -10,9 +120,9 @@
   (input)="onBusqueda($event)"
 />
 
-<!-- Filtros por categoría -->
 <div class="flex flex-wrap gap-2 mb-4">
   <button
+    type="button"
     class="px-3 py-1 rounded bg-gray-200"
     [class.bg-blue-500]="categoriaSeleccionada() === null"
     [class.text-white]="categoriaSeleccionada() === null"
@@ -23,6 +133,7 @@
 
   @for (cat of categorias(); track cat.id) {
     <button
+      type="button"
       class="px-3 py-1 rounded bg-gray-200"
       [class.bg-blue-500]="categoriaSeleccionada() === cat.id"
       [class.text-white]="categoriaSeleccionada() === cat.id"
@@ -33,14 +144,10 @@
   }
 </div>
 
-<!-- Listado de platillos -->
 @if (platillosFiltrados().length > 0) {
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
     @for (p of platillosFiltrados(); track p.id) {
       <div class="border rounded p-4 shadow-sm">
-
-        <!-- Fotografía recibida desde la API -->
         @if (p.imagenUrl) {
           <img
             [src]="p.imagenUrl"
@@ -60,24 +167,19 @@
           </div>
         }
 
-        <!-- Nombre del platillo -->
         <h3 class="font-bold">
           {{ p.nombre }}
         </h3>
 
-        <!-- Descripción -->
         <p class="text-sm text-gray-600">
           {{ p.descripcion }}
         </p>
 
-        <!-- Precio -->
         <p class="mt-2 font-medium">
           {{ p.precio | monedaBs }}
         </p>
-
       </div>
     }
-
   </div>
 } @else {
   <p class="text-gray-500">

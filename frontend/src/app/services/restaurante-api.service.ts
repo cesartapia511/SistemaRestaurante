@@ -11,7 +11,8 @@ import {
   ClienteApi,
   ClienteRequest,
   PedidoRequest,
-  PedidoResponse
+  PedidoResponse,
+  ProductoRequest
 } from '../models/api.model';
 
 @Service()
@@ -24,6 +25,12 @@ export class RestauranteApiService {
       `${this.apiUrl}/productos`
     );
   }
+  crearProducto(producto: ProductoRequest): Observable<ProductoApi> {
+  return this.http.post<ProductoApi>(
+    `${this.apiUrl}/productos`,
+    producto
+  );
+}
 
   obtenerCategorias(): Observable<CategoriaApi[]> {
     return this.http.get<CategoriaApi[]>(

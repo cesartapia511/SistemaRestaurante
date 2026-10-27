@@ -73,3 +73,10 @@ export interface ClienteRequest {
   apellido: string;
   telefono: string | null;
 }
+export interface ProductoRequest {
+  nombre: string;
+  descripcion: string | null;
+  imagenUrl: string | null;
+  precio: number;
+  categoriaId: number;
+}
