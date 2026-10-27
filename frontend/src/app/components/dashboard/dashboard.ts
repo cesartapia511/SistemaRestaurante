@@ -16,12 +16,12 @@ export class Dashboard {
   readonly platillos = this.api.platillos;
 
   readonly totalVentas = computed(() =>
-    this.pedidos()
-      .filter((p) => p.estado !== 'cancelado')
-      .reduce((acc, p) => acc + this.api.totalPedido(p), 0)
-  );
+  this.pedidos()
+    .filter(p => p.estado === 'pagado')
+    .reduce((acc, p) => acc + this.api.totalPedido(p), 0)
+);
 
   readonly pedidosHoy = computed(() => this.pedidos().length);
-  readonly mesasOcupadas = computed(() => this.mesas().filter((m) => m.estado === 'ocupada').length);
+  readonly mesasOcupadas = computed(() => this.mesas().filter(m => m.estado.toLowerCase() === 'ocupada').length);
   readonly platillosDisponibles = computed(() => this.platillos().filter((p) => p.disponible).length);
 }
