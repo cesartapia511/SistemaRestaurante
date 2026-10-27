@@ -5,7 +5,14 @@ namespace SistemaRestauranteApi.Interfaces
 {
     public interface IClienteService
     {
-        Task<IEnumerable<ClienteResponseDto>> GetAllAsync();
-        Task<ClienteResponseDto?> GetByIdAsync(int id);
+        Task<List<ClienteResponseDto>> ObtenerTodosAsync();
+
+        Task<ClienteResponseDto?> BuscarClientePorIdAsync(int id);
+
+        Task<ClienteResponseDto?> CrearClienteAsync(ClienteRequestDto cliente);
+
+        Task<ClienteResponseDto?> ActualizarCliente(int id, ClienteRequestDto cliente);
+
+        Task<bool> EliminarAsync(int id);
     }
 }

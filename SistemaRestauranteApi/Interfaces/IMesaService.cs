@@ -5,7 +5,14 @@ namespace SistemaRestauranteApi.Interfaces
 {
     public interface IMesaService
     {
-        Task<IEnumerable<MesaResponseDto>> GetAllAsync();
-        Task<MesaResponseDto?> GetByIdAsync(int id);
+       Task<List<MesaResponseDto>> ObtenerTodosAsync();
+
+        Task<MesaResponseDto?> BuscarMesaPorIdAsync(int id);
+
+        Task<MesaResponseDto?> CrearMesaAsync(MesaRequestDto mesa);
+
+        Task<MesaResponseDto?> ActualizarMesa(int id, MesaRequestDto mesa);
+
+        Task<bool> EliminarAsync(int id);
     }
 }

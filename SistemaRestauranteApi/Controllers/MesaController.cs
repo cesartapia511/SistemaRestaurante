@@ -1,6 +1,8 @@
 
 using Microsoft.AspNetCore.Mvc;
+using SistemaRestauranteApi.DTOs;
 using SistemaRestauranteApi.Interfaces;
+using SistemaRestauranteApi.Services;
 
 namespace SistemaRestauranteApi.Controllers
 {
@@ -8,31 +10,42 @@ namespace SistemaRestauranteApi.Controllers
     [Route("api/v1/mesas")]
     public class MesaController : ControllerBase
     {
-        private readonly IMesaService _mesaService;
+        private readonly MesaService _mesaService;
 
-        public MesaController(IMesaService mesaService)
+        public MesaController(MesaService mesaService)
         {
             _mesaService = mesaService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<List<MesaResponseDto>> ObtenerTodos()
         {
-            var mesas = await _mesaService.GetAllAsync();
-            return Ok(mesas);
+            return await _mesaService.ObtenerTodosAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<MesaResponseDto?> BuscarMesaPorId(int id)
         {
-            var mesa = await _mesaService.GetByIdAsync(id);
+            return await _mesaService.BuscarMesaPorIdAsync(id);
+        }
 
-            if (mesa == null)
-            {
-                return NotFound();
-            }
+        [HttpPost]
+        public async Task<MesaResponseDto?> CrearMesa(MesaRequestDto mesa)
+        {
+            return await _mesaService.CrearMesaAsync(mesa);
+        }
 
-            return Ok(mesa);
+        [HttpPatch("{id:int}")]
+        public async Task<MesaResponseDto?> ActualizarMesa(
+            int id, MesaRequestDto mesa)
+        {
+            return await _mesaService.ActualizarMesa(id, mesa);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<bool> EliminarMesa(int id)
+        {
+            return await _mesaService.EliminarAsync(id);
         }
     }
 }

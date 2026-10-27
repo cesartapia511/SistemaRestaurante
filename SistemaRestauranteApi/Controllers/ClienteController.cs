@@ -1,6 +1,8 @@
 
 using Microsoft.AspNetCore.Mvc;
+using SistemaRestauranteApi.DTOs;
 using SistemaRestauranteApi.Interfaces;
+using SistemaRestauranteApi.Services;
 
 namespace SistemaRestauranteApi.Controllers
 {
@@ -8,31 +10,41 @@ namespace SistemaRestauranteApi.Controllers
     [Route("api/v1/clientes")]
     public class ClienteController : ControllerBase
     {
-        private readonly IClienteService _clienteService;
+        private readonly ClienteService _clienteService;
 
-        public ClienteController(IClienteService clienteService)
+        public ClienteController(ClienteService clienteService)
         {
             _clienteService = clienteService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<List<ClienteResponseDto>> ObtenerTodos()
         {
-            var clientes = await _clienteService.GetAllAsync();
-            return Ok(clientes);
+            return await _clienteService.ObtenerTodosAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ClienteResponseDto?> BuscarClientePorId(int id)
         {
-            var cliente = await _clienteService.GetByIdAsync(id);
+            return await _clienteService.BuscarClientePorIdAsync(id);
+        }
 
-            if (cliente == null)
-            {
-                return NotFound();
-            }
+        [HttpPost]
+        public async Task<ClienteResponseDto?> CrearCliente(ClienteRequestDto cliente)
+        {
+            return await _clienteService.CrearClienteAsync(cliente);
+        }
 
-            return Ok(cliente);
+        [HttpPatch("{id:int}")]
+        public async Task<ClienteResponseDto?> ActualizarCliente(int id, ClienteRequestDto cliente)
+        {
+            return await _clienteService.ActualizarCliente(id, cliente);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<bool> EliminarCliente(int id)
+        {
+            return await _clienteService.EliminarAsync(id);
         }
     }
 }
