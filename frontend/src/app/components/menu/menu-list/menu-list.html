@@ -1,23 +1,86 @@
+
 <h2 class="text-2xl font-bold mb-4">Menú</h2>
 
-<input type="text" placeholder="Buscar platillo..." class="border rounded p-2 w-full mb-4" [value]="busqueda()" (input)="onBusqueda($event)" />
+<!-- Buscador de platillos -->
+<input
+  type="text"
+  placeholder="Buscar platillo..."
+  class="border rounded p-2 w-full mb-4"
+  [value]="busqueda()"
+  (input)="onBusqueda($event)"
+/>
 
+<!-- Filtros por categoría -->
 <div class="flex flex-wrap gap-2 mb-4">
-    <button class="px-3 py-1 rounded bg-gray-200" [class.bg-blue-500]="categoriaSeleccionada() === null" [class.text-white]="categoriaSeleccionada() === null" (click)="categoriaSeleccionada.set(null)">Todas</button> @for (cat of categorias(); track cat.id)
-    {
-    <button class="px-3 py-1 rounded bg-gray-200" [class.bg-blue-500]="categoriaSeleccionada() === cat.id" [class.text-white]="categoriaSeleccionada() === cat.id" (click)="categoriaSeleccionada.set(cat.id)">{{ cat.nombre }}</button> }
+  <button
+    class="px-3 py-1 rounded bg-gray-200"
+    [class.bg-blue-500]="categoriaSeleccionada() === null"
+    [class.text-white]="categoriaSeleccionada() === null"
+    (click)="categoriaSeleccionada.set(null)"
+  >
+    Todas
+  </button>
+
+  @for (cat of categorias(); track cat.id) {
+    <button
+      class="px-3 py-1 rounded bg-gray-200"
+      [class.bg-blue-500]="categoriaSeleccionada() === cat.id"
+      [class.text-white]="categoriaSeleccionada() === cat.id"
+      (click)="categoriaSeleccionada.set(cat.id)"
+    >
+      {{ cat.nombre }}
+    </button>
+  }
 </div>
 
+<!-- Listado de platillos -->
 @if (platillosFiltrados().length > 0) {
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
     @for (p of platillosFiltrados(); track p.id) {
-    <div class="border rounded p-4 shadow-sm">
-        <h3 class="font-bold">{{ p.nombre }}</h3>
-        <p class="text-sm text-gray-600">{{ p.descripcion }}</p>
-        <p class="mt-2 font-medium">{{ p.precio | monedaBs }}</p>
-    </div>
+      <div class="border rounded p-4 shadow-sm">
+
+        <!-- Fotografía recibida desde la API -->
+        @if (p.imagenUrl) {
+          <img
+            [src]="p.imagenUrl"
+            [alt]="p.nombre"
+            width="250"
+            height="180"
+            loading="lazy"
+            class="w-full h-48 object-cover rounded mb-3"
+          />
+        } @else {
+          <div
+            class="w-full h-48 bg-gray-100 rounded mb-3 flex items-center justify-center"
+          >
+            <span class="text-gray-500">
+              Imagen no disponible
+            </span>
+          </div>
+        }
+
+        <!-- Nombre del platillo -->
+        <h3 class="font-bold">
+          {{ p.nombre }}
+        </h3>
+
+        <!-- Descripción -->
+        <p class="text-sm text-gray-600">
+          {{ p.descripcion }}
+        </p>
+
+        <!-- Precio -->
+        <p class="mt-2 font-medium">
+          {{ p.precio | monedaBs }}
+        </p>
+
+      </div>
     }
-</div>
+
+  </div>
 } @else {
-<p class="text-gray-500">No hay platillos que coincidan.</p>
+  <p class="text-gray-500">
+    No hay platillos que coincidan.
+  </p>
 }

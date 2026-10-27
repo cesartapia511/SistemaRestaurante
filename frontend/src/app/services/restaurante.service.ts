@@ -42,22 +42,24 @@ export class RestauranteService {
     this.cargarPedidos();
   }
 
-  cargarPlatillos(): Observable<void> {
-    return this.api.obtenerProductos().pipe(
-      map((productos) => {
-        this._platillos.set(
-          productos.map((producto) => ({
-            id: producto.id,
-            nombre: producto.nombre,
-            descripcion: producto.descripcion ?? '',
-            precio: producto.precio,
-            categoriaId: producto.categoriaId,
-            disponible: producto.disponible
-          }))
-        );
-      })
-    );
-  }
+  
+cargarPlatillos(): Observable<void> {
+  return this.api.obtenerProductos().pipe(
+    map((productos) => {
+      this._platillos.set(
+        productos.map((producto) => ({
+          id: producto.id,
+          nombre: producto.nombre,
+          descripcion: producto.descripcion ?? '',
+          precio: producto.precio,
+          categoriaId: producto.categoriaId,
+          disponible: producto.disponible,
+          imagenUrl: producto.imagenUrl
+        }))
+      );
+    })
+  );
+}
 
   cargarCategorias(): void {
     this.api.obtenerCategorias().subscribe({

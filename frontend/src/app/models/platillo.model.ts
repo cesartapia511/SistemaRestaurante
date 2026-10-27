@@ -10,4 +10,5 @@ export interface Platillo {
   precio: number;
   categoriaId: number;
   disponible: boolean;
+  imagenUrl: string | null;
 }

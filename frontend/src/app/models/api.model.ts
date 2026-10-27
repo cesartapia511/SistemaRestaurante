@@ -3,9 +3,11 @@ export interface ProductoApi {
   id: number;
   nombre: string;
   descripcion: string | null;
+  imagenUrl: string | null;
   precio: number;
   disponible: boolean;
   categoriaId: number;
+  nombreCategoria: string;
 }
 
 export interface CategoriaApi {
