@@ -1,20 +1,20 @@
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
   ProductoApi,
   CategoriaApi,
   MesaApi,
+  MesaRequest,
   ClienteApi,
+  ClienteRequest,
   PedidoRequest,
   PedidoResponse
 } from '../models/api.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class RestauranteApiService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = '/api/v1';
@@ -37,9 +37,23 @@ export class RestauranteApiService {
     );
   }
 
+  crearMesa(mesa: MesaRequest): Observable<MesaApi> {
+    return this.http.post<MesaApi>(
+      `${this.apiUrl}/mesas`,
+      mesa
+    );
+  }
+
   obtenerClientes(): Observable<ClienteApi[]> {
     return this.http.get<ClienteApi[]>(
       `${this.apiUrl}/clientes`
+    );
+  }
+
+  crearCliente(cliente: ClienteRequest): Observable<ClienteApi> {
+    return this.http.post<ClienteApi>(
+      `${this.apiUrl}/clientes`,
+      cliente
     );
   }
 
@@ -49,9 +63,7 @@ export class RestauranteApiService {
     );
   }
 
-  crearPedido(
-    pedido: PedidoRequest
-  ): Observable<PedidoResponse> {
+  crearPedido(pedido: PedidoRequest): Observable<PedidoResponse> {
     return this.http.post<PedidoResponse>(
       `${this.apiUrl}/pedidos`,
       pedido

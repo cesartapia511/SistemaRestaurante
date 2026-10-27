@@ -1,88 +1,216 @@
+
 <h2 class="text-2xl font-bold mb-4">Nuevo pedido</h2>
 
-<div class="mb-3">
-    <label class="block mb-1">Cliente</label>
-    <input class="border rounded p-2 w-full" [value]="clienteNombre()" (input)="onCliente($event)" placeholder="Nombre del cliente" />
+<div class="border rounded p-4 shadow-sm mb-6">
+  <h3 class="text-lg font-bold mb-3">Registrar nuevo cliente</h3>
+
+  <form (submit)="$event.preventDefault(); registrarCliente()">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+      <div>
+        <label for="nuevo-nombre" class="block mb-1">Nombre</label>
+        <input
+          id="nuevo-nombre"
+          type="text"
+          maxlength="50"
+          required
+          class="border rounded p-2 w-full"
+          placeholder="Nombre"
+          [value]="nuevoClienteNombre()"
+          (input)="onNuevoClienteNombre($event)"
+        />
+      </div>
+
+      <div>
+        <label for="nuevo-apellido" class="block mb-1">Apellido</label>
+        <input
+          id="nuevo-apellido"
+          type="text"
+          maxlength="50"
+          required
+          class="border rounded p-2 w-full"
+          placeholder="Apellido"
+          [value]="nuevoClienteApellido()"
+          (input)="onNuevoClienteApellido($event)"
+        />
+      </div>
+
+      <div>
+        <label for="nuevo-telefono" class="block mb-1">
+          Teléfono (opcional)
+        </label>
+        <input
+          id="nuevo-telefono"
+          type="tel"
+          class="border rounded p-2 w-full"
+          placeholder="Teléfono"
+          [value]="nuevoClienteTelefono()"
+          (input)="onNuevoClienteTelefono($event)"
+        />
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="bg-blue-600 text-white px-4 py-2 rounded"
+      [disabled]="guardandoCliente()"
+    >
+      {{ guardandoCliente() ? 'Guardando...' : 'Registrar cliente' }}
+    </button>
+  </form>
+
+  @if (mensajeCliente()) {
+    <p class="mt-3 text-green-700" role="status">
+      {{ mensajeCliente() }}
+    </p>
+  }
+
+  @if (errorCliente()) {
+    <p class="mt-3 text-red-600" role="alert">
+      {{ errorCliente() }}
+    </p>
+  }
 </div>
 
 <div class="mb-3">
-    <label class="block mb-1">Mesa</label>
-    <div class="grid grid-cols-3 gap-2">
-        @for (m of mesas(); track m.id) {
-        <button appEstadoMesa [estado]="m.estado" [class.ring-2]="mesaSeleccionada() === m.id" [class.ring-blue-700]="mesaSeleccionada() === m.id" class="border rounded p-2" (click)="mesaSeleccionada.set(m.id)">
+  <label for="cliente-pedido" class="block mb-1">Cliente</label>
+  <input
+    id="cliente-pedido"
+    class="border rounded p-2 w-full"
+    [value]="clienteNombre()"
+    (input)="onCliente($event)"
+    [disabled]="guardandoPedido()"
+    placeholder="Nombre y apellido del cliente"
+  />
+</div>
+
+<div class="mb-3">
+  <label class="block mb-1">Mesa</label>
+  <div class="grid grid-cols-3 gap-2">
+    @for (m of mesas(); track m.id) {
+      <button
+        type="button"
+        appEstadoMesa
+        [estado]="m.estado"
+        [class.ring-2]="mesaSeleccionada() === m.id"
+        [class.ring-blue-700]="mesaSeleccionada() === m.id"
+        [disabled]="guardandoPedido()"
+        class="border rounded p-2"
+        (click)="mesaSeleccionada.set(m.id)"
+      >
         Mesa {{ m.numero }} ({{ m.capacidad }}p)
-      </button> }
-    </div>
+      </button>
+    }
+  </div>
 </div>
 
 <div class="mb-3">
-    <label class="block mb-1">Platillos</label>
-    <div class="flex flex-wrap gap-2">
-        @for (p of platillos(); track p.id) {
-        <button class="px-3 py-1 bg-gray-100 rounded" (click)="agregarLinea(p.id)">
+  <label class="block mb-1">Platillos</label>
+  <div class="flex flex-wrap gap-2">
+    @for (p of platillos(); track p.id) {
+      <button
+        type="button"
+        class="px-3 py-1 bg-gray-100 rounded"
+        [disabled]="guardandoPedido()"
+        (click)="agregarLinea(p.id)"
+      >
         + {{ p.nombre }} ({{ p.precio | monedaBs }})
-      </button> }
-    </div>
+      </button>
+    }
+  </div>
 </div>
 
 @if (lineas().length > 0) {
-<table class="min-w-full border mt-4">
+  <table class="min-w-full border mt-4">
     <thead class="bg-gray-100">
-        <tr>
-            <th class="text-left p-2">Platillo</th>
-            <th class="text-right p-2">Precio</th>
-            <th class="text-right p-2">Cant.</th>
-            <th class="text-right p-2">Subtotal</th>
-            <th class="p-2"></th>
-        </tr>
+      <tr>
+        <th class="text-left p-2">Platillo</th>
+        <th class="text-right p-2">Precio</th>
+        <th class="text-right p-2">Cant.</th>
+        <th class="text-right p-2">Subtotal</th>
+        <th class="p-2"></th>
+      </tr>
     </thead>
     <tbody>
-        @for (l of lineas(); track l.platilloId) {
+      @for (l of lineas(); track l.platilloId) {
         <tr class="border-t">
-            <td class="p-2">{{ l.nombrePlatillo }}</td>
-            <td class="p-2 text-right">{{ l.precioUnitario | monedaBs }}</td>
-            <td class="p-2 text-right">{{ l.cantidad }}</td>
-            <td class="p-2 text-right">{{ l.precioUnitario * l.cantidad | monedaBs }}</td>
-            <td class="p-2 text-right">
-                <button class="text-red-600" (click)="quitarLinea(l.platilloId)">Quitar</button>
-            </td>
+          <td class="p-2">{{ l.nombrePlatillo }}</td>
+          <td class="p-2 text-right">
+            {{ l.precioUnitario | monedaBs }}
+          </td>
+          <td class="p-2 text-right">{{ l.cantidad }}</td>
+          <td class="p-2 text-right">
+            {{ l.precioUnitario * l.cantidad | monedaBs }}
+          </td>
+          <td class="p-2 text-right">
+            <button
+              type="button"
+              class="text-red-600"
+              [disabled]="guardandoPedido()"
+              (click)="quitarLinea(l.platilloId)"
+            >
+              Quitar
+            </button>
+          </td>
         </tr>
-        }
+      }
     </tbody>
     <tfoot>
-        <tr appResaltado class="border-t font-bold">
-            <td class="p-2" colspan="3">Total</td>
-            <td class="p-2 text-right">{{ total() | monedaBs }}</td>
-            <td></td>
-        </tr>
+      <tr appResaltado class="border-t font-bold">
+        <td class="p-2" colspan="3">Total</td>
+        <td class="p-2 text-right">
+          {{ total() | monedaBs }}
+        </td>
+        <td></td>
+      </tr>
     </tfoot>
-</table>
+  </table>
 
-@if (error(); as e) {
-<p class="mt-3 text-red-600">{{ e }}</p>
+  @if (error(); as e) {
+    <p class="mt-3 text-red-600" role="alert">
+      {{ e }}
+    </p>
+  }
+
+  <button
+    type="button"
+    class="mt-3 bg-blue-600 text-white px-4 py-2 rounded"
+    [disabled]="guardandoPedido()"
+    (click)="guardarPedido()"
+  >
+    {{ guardandoPedido() ? 'Guardando...' : 'Guardar pedido' }}
+  </button>
 }
 
-<button class="mt-3 bg-blue-600 text-white px-4 py-2 rounded" (click)="guardarPedido()">
-    Guardar pedido
-  </button> }
+@if (mensajePedido()) {
+  <p class="mt-3 text-green-700" role="status">
+    {{ mensajePedido() }}
+  </p>
+}
 
-<hr class="my-6">
+<hr class="my-6" />
 
 <h3 class="text-xl font-bold mb-2">Pedidos registrados</h3>
+
 @if (pedidos().length > 0) {
-<ul class="space-y-2">
+  <ul class="space-y-2">
     @for (p of pedidos(); track p.id) {
-    <li class="border rounded p-3">
+      <li class="border rounded p-3">
         <div class="flex justify-between">
-            <span>{{ p.clienteNombre }} — Mesa {{ p.mesaId }}</span>
-            <span class="text-sm bg-gray-200 px-2 rounded">{{ p.estado | estadoPedido }}</span>
+          <span>
+            {{ p.clienteNombre }} — Mesa {{ p.mesaId }}
+          </span>
+          <span class="text-sm bg-gray-200 px-2 rounded">
+            {{ p.estado | estadoPedido }}
+          </span>
         </div>
         <div class="text-sm text-gray-600">
-            {{ p.detalles.length }} ítems — Total <strong>{{ totalDePedido(p) | monedaBs }}</strong>
+          {{ p.detalles.length }} ítems —
+          Total
+          <strong>{{ totalDePedido(p) | monedaBs }}</strong>
         </div>
-    </li>
+      </li>
     }
-</ul>
+  </ul>
 } @else {
-<p class="text-gray-500">Aún no hay pedidos.</p>
+  <p class="text-gray-500">Aún no hay pedidos.</p>
 }

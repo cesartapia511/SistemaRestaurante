@@ -64,3 +64,12 @@ export interface PedidoResponse {
   nombreCliente: string;
   detalles: DetallePedidoResponse[];
 }
+export interface MesaRequest {
+  numero: number;
+  capacidad: number;
+}
+export interface ClienteRequest {
+  nombre: string;
+  apellido: string;
+  telefono: string | null;
+}

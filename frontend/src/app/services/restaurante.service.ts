@@ -1,23 +1,21 @@
 
-import { Injectable, inject, signal } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Service, inject, signal } from '@angular/core';
+import { Observable, map, switchMap, tap, throwError } from 'rxjs';
 
 import { Categoria, Platillo } from '../models/platillo.model';
 import { Mesa } from '../models/mesa.model';
 import { DetallePedido, Pedido } from '../models/pedido.model';
-
 import { RestauranteApiService } from './restaurante-api.service';
 
 import {
   ClienteApi,
   MesaApi,
+  MesaRequest,
   PedidoRequest,
   PedidoResponse
 } from '../models/api.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class RestauranteService {
   private readonly api = inject(RestauranteApiService);
 
@@ -42,24 +40,23 @@ export class RestauranteService {
     this.cargarPedidos();
   }
 
-  
-cargarPlatillos(): Observable<void> {
-  return this.api.obtenerProductos().pipe(
-    map((productos) => {
-      this._platillos.set(
-        productos.map((producto) => ({
-          id: producto.id,
-          nombre: producto.nombre,
-          descripcion: producto.descripcion ?? '',
-          precio: producto.precio,
-          categoriaId: producto.categoriaId,
-          disponible: producto.disponible,
-          imagenUrl: producto.imagenUrl
-        }))
-      );
-    })
-  );
-}
+  cargarPlatillos(): Observable<void> {
+    return this.api.obtenerProductos().pipe(
+      map((productos) => {
+        this._platillos.set(
+          productos.map((producto) => ({
+            id: producto.id,
+            nombre: producto.nombre,
+            descripcion: producto.descripcion ?? '',
+            precio: producto.precio,
+            categoriaId: producto.categoriaId,
+            disponible: producto.disponible,
+            imagenUrl: producto.imagenUrl
+          }))
+        );
+      })
+    );
+  }
 
   cargarCategorias(): void {
     this.api.obtenerCategorias().subscribe({
@@ -93,6 +90,24 @@ cargarPlatillos(): Observable<void> {
     });
   }
 
+  crearMesa(mesa: MesaRequest): Observable<MesaApi> {
+    return this.api.crearMesa(mesa).pipe(
+      tap((mesaCreada) => {
+        if (mesaCreada) {
+          this._mesas.update((actuales) => [
+            ...actuales,
+            {
+              id: mesaCreada.id,
+              numero: mesaCreada.numero,
+              capacidad: mesaCreada.capacidad,
+              estado: mesaCreada.estado as Mesa['estado']
+            }
+          ]);
+        }
+      })
+    );
+  }
+
   cargarPedidos(): void {
     this.api.obtenerPedidos().subscribe({
       next: (pedidos) => {
@@ -109,18 +124,23 @@ cargarPlatillos(): Observable<void> {
     mesaId: number,
     clienteNombre: string,
     detalles: DetallePedido[]
-  ): void {
+  ): Observable<Pedido> {
     if (detalles.length === 0) {
-      console.error('Agrega al menos un producto al pedido.');
-      return;
+      return throwError(
+        () => new Error('Agrega al menos un producto al pedido.')
+      );
     }
 
-    this.api.obtenerClientes().subscribe({
-      next: (clientes: ClienteApi[]) => {
-        const nombreBuscado = clienteNombre
-          .trim()
-          .toLocaleLowerCase();
+    const nombreBuscado = clienteNombre.trim().toLocaleLowerCase();
 
+    if (!nombreBuscado) {
+      return throwError(
+        () => new Error('Selecciona un cliente válido.')
+      );
+    }
+
+    return this.api.obtenerClientes().pipe(
+      switchMap((clientes: ClienteApi[]) => {
         const cliente = clientes.find(
           (c) =>
             `${c.nombre} ${c.apellido}`
@@ -129,10 +149,9 @@ cargarPlatillos(): Observable<void> {
         );
 
         if (!cliente) {
-          console.error(
-            'El cliente no está registrado en el backend.'
+          return throwError(
+            () => new Error('El cliente no está registrado en el backend.')
           );
-          return;
         }
 
         const solicitud: PedidoRequest = {
@@ -144,26 +163,22 @@ cargarPlatillos(): Observable<void> {
           }))
         };
 
-        this.api.crearPedido(solicitud).subscribe({
-          next: (respuesta) => {
-            this._pedidos.update((actuales) => [
-              ...actuales,
-              this.adaptarPedido(respuesta)
-            ]);
+        return this.api.crearPedido(solicitud);
+      }),
+      map((respuesta: PedidoResponse) => {
+        if (!respuesta) {
+          throw new Error('El backend no confirmó el registro del pedido.');
+        }
 
-            console.log('Pedido registrado correctamente.');
-          },
-          error: (error) => {
-            console.error(
-              'Error al registrar el pedido:',
-              error
-            );
-          }
-        });
-      },
-      error: (error) =>
-        console.error('Error al consultar clientes:', error)
-    });
+        return this.adaptarPedido(respuesta);
+      }),
+      tap((pedido) => {
+        this._pedidos.update((actuales) => [
+          ...actuales,
+          pedido
+        ]);
+      })
+    );
   }
 
   private adaptarPedido(respuesta: PedidoResponse): Pedido {

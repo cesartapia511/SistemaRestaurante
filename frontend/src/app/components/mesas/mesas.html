@@ -1,26 +1,105 @@
+
 <h2 class="text-2xl font-bold mb-4">Mesas</h2>
 
 <div class="grid grid-cols-3 gap-2 mb-4 text-center">
-    <div class="bg-green-100 rounded p-2">
-        <p class="text-xs text-green-800">Libres</p>
-        <p class="font-bold text-lg">{{ libres() }}</p>
-    </div>
-    <div class="bg-red-100 rounded p-2">
-        <p class="text-xs text-red-800">Ocupadas</p>
-        <p class="font-bold text-lg">{{ ocupadas() }}</p>
-    </div>
-    <div class="bg-yellow-100 rounded p-2">
-        <p class="text-xs text-yellow-800">Reservadas</p>
-        <p class="font-bold text-lg">{{ reservadas() }}</p>
-    </div>
+  <div class="bg-green-100 rounded p-2">
+    <p class="text-xs text-green-800">Libres</p>
+    <p class="font-bold text-lg">{{ libres() }}</p>
+  </div>
+
+  <div class="bg-red-100 rounded p-2">
+    <p class="text-xs text-red-800">Ocupadas</p>
+    <p class="font-bold text-lg">{{ ocupadas() }}</p>
+  </div>
+
+  <div class="bg-yellow-100 rounded p-2">
+    <p class="text-xs text-yellow-800">Reservadas</p>
+    <p class="font-bold text-lg">{{ reservadas() }}</p>
+  </div>
 </div>
 
-<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-    @for (m of mesas(); track m.id) {
-    <div appEstadoMesa [estado]="m.estado" class="border rounded p-4 shadow-sm">
-        <p class="text-lg font-bold">Mesa {{ m.numero }}</p>
-        <p class="text-sm text-gray-700">Capacidad: {{ m.capacidad }}</p>
-        <p class="text-xs capitalize mt-1">{{ m.estado }}</p>
+<div class="border rounded p-4 shadow-sm mb-6">
+  <h3 class="text-lg font-bold mb-3">Registrar nueva mesa</h3>
+
+  <form (submit)="$event.preventDefault(); crearMesa()">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div>
+        <label for="numero" class="block text-sm font-medium mb-1">
+          Número de mesa
+        </label>
+        <input
+          id="numero"
+          type="number"
+          min="1"
+          max="200"
+          step="1"
+          required
+          class="border rounded p-2 w-full"
+          [value]="numero()"
+          (input)="cambiarNumero($event)"
+        />
+      </div>
+
+      <div>
+        <label for="capacidad" class="block text-sm font-medium mb-1">
+          Capacidad
+        </label>
+        <input
+          id="capacidad"
+          type="number"
+          min="2"
+          max="12"
+          step="1"
+          required
+          class="border rounded p-2 w-full"
+          [value]="capacidad()"
+          (input)="cambiarCapacidad($event)"
+        />
+      </div>
     </div>
-    }
+
+    <button
+      type="submit"
+      class="bg-blue-600 text-white px-4 py-2 rounded"
+      [disabled]="guardando()"
+    >
+      {{ guardando() ? 'Guardando...' : 'Registrar mesa' }}
+    </button>
+  </form>
+
+  @if (mensaje()) {
+    <p class="text-green-700 mt-3" role="status">
+      {{ mensaje() }}
+    </p>
+  }
+
+  @if (error()) {
+    <p class="text-red-700 mt-3" role="alert">
+      {{ error() }}
+    </p>
+  }
 </div>
+
+<h3 class="text-lg font-bold mb-3">Mesas registradas</h3>
+
+@if (mesas().length > 0) {
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+    @for (m of mesas(); track m.id) {
+      <div
+        appEstadoMesa
+        [estado]="m.estado"
+        class="border rounded p-4 shadow-sm"
+      >
+        <p class="text-lg font-bold">Mesa {{ m.numero }}</p>
+        <p class="text-sm text-gray-700">
+          Capacidad: {{ m.capacidad }}
+        </p>
+        <p class="text-xs capitalize mt-1">
+          {{ m.estado }}
+        </p>
+      </div>
+    }
+  </div>
+} @else {
+  <p class="text-gray-500">No hay mesas registradas.</p>
+}
