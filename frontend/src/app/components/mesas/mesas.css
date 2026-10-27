@@ -1,200 +1,324 @@
 
 :host {
   display: block;
-  max-width: 1280px;
+  width: 100%;
+  max-width: 1440px;
   min-height: calc(100vh - 82px);
   margin: 0 auto;
-  padding: 42px 32px 60px;
+  padding: 38px clamp(18px, 4vw, 48px) 60px;
   color: #f5f2eb;
+  background: #111111;
 }
 
 /* Título principal */
 h2 {
-  margin: 0 0 32px;
+  margin: 0 0 30px;
   color: #f2b51d;
-  font-size: clamp(32px, 4vw, 44px);
+  font-size: clamp(30px, 4vw, 42px);
   font-weight: 800;
-  letter-spacing: -1px;
   line-height: 1.2;
+  letter-spacing: -1px;
 }
 
-/* Cuadros de resumen: libres, ocupadas y reservadas */
+/* Resumen de estados */
 .grid.grid-cols-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-  margin-bottom: 36px;
-  text-align: left;
+  gap: 18px;
+  margin-bottom: 32px;
 }
 
 .grid.grid-cols-3 > div {
-  position: relative;
-  overflow: hidden;
-  min-height: 150px;
-  padding: 24px 26px;
-  border: 1px solid #39352c;
-  border-radius: 15px;
-  background: linear-gradient(145deg, #22211e, #181818);
-  box-shadow: 0 8px 22px rgb(0 0 0 / 16%);
-  transition: transform 0.25s ease, border-color 0.25s ease;
-}
-
-/* Línea dorada lateral */
-.grid.grid-cols-3 > div::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: #f2b51d;
-}
-
-/* Nombre del estado */
-.grid.grid-cols-3 > div p:first-child {
-  margin: 0;
-  color: #c9c4b8 !important;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-}
-
-/* Cantidad */
-.grid.grid-cols-3 > div p:last-child {
-  margin: 14px 0 0;
-  color: #f2b51d !important;
-  font-size: 42px;
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -1px;
-  font-variant-numeric: tabular-nums;
+  padding: 22px 18px;
+  border: 1px solid #37342c;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #202020, #181818);
+  text-align: left;
+  box-shadow: 0 8px 22px rgb(0 0 0 / 12%);
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .grid.grid-cols-3 > div:hover {
-  transform: translateY(-4px);
-  border-color: #9b7520;
+  transform: translateY(-3px);
+  border-color: #71602f;
 }
 
-/* Colores sutiles por estado */
-.grid.grid-cols-3 > div:nth-child(1)::before {
-  background: #57bd88;
+.grid.grid-cols-3 > div p:first-child {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
-.grid.grid-cols-3 > div:nth-child(2)::before {
-  background: #e46f6f;
+.grid.grid-cols-3 > div p:last-child {
+  margin: 0;
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
-.grid.grid-cols-3 > div:nth-child(3)::before {
+/* Colores para los estados */
+.grid.grid-cols-3 > div:nth-child(1) p:first-child {
+  color: #73d69a;
+}
+
+.grid.grid-cols-3 > div:nth-child(2) p:first-child {
+  color: #ff8585;
+}
+
+.grid.grid-cols-3 > div:nth-child(3) p:first-child {
+  color: #f2b51d;
+}
+
+/* Panel para registrar una mesa */
+:host > div.border.rounded {
+  padding: clamp(20px, 3vw, 30px);
+  margin-bottom: 42px;
+  border: 1px solid #39352c;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #202020, #181818);
+  box-shadow: 0 12px 30px rgb(0 0 0 / 15%);
+}
+
+:host > div.border.rounded h3 {
+  margin: 0 0 25px;
+  color: #f2b51d;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+/* Campos del formulario */
+form > div.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-bottom: 25px;
+}
+
+form > div.grid > div {
+  min-width: 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 9px;
+  color: #e7e2d8;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+input[type="number"] {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid #403c33;
+  border-radius: 9px;
+  outline: none;
+  background: #121212;
+  color: #f5f2eb;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="number"]:focus {
+  border-color: #f2b51d;
+  box-shadow: 0 0 0 3px rgb(242 181 29 / 12%);
+}
+
+/* Botón para registrar */
+form > button[type="submit"] {
+  display: inline-flex;
+  min-width: 160px;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  padding: 13px 22px;
+  border: 1px solid #f2b51d;
+  border-radius: 9px;
   background: #f2b51d;
+  color: #171717;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Cuadrícula de tarjetas de mesas */
-.grid.grid-cols-2 {
+form > button[type="submit"]:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #ffd04d;
+  box-shadow: 0 7px 18px rgb(242 181 29 / 15%);
+}
+
+form > button[type="submit"]:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+/* Mensajes de respuesta */
+p[role="status"],
+p[role="alert"] {
+  padding: 12px 15px;
+  margin: 20px 0 0;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+p[role="status"] {
+  border: 1px solid #285b40;
+  background: #172a20;
+  color: #91e0ac;
+}
+
+p[role="alert"] {
+  border: 1px solid #693333;
+  background: #301b1b;
+  color: #ffaaaa;
+}
+
+/* Título de mesas registradas */
+h3.text-lg.font-bold.mb-3 {
+  margin: 0 0 20px;
+  color: #f5f2eb;
+  font-size: 23px;
+  font-weight: 750;
+}
+
+/* Tarjetas de mesas */
+.grid.grid-cols-2.md\:grid-cols-4 {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 18px;
 }
 
-/* Tarjeta individual */
-.grid.grid-cols-2 > div {
+.grid.grid-cols-2.md\:grid-cols-4 > div {
   position: relative;
+  min-width: 0;
+  min-height: 155px;
   overflow: hidden;
-  min-height: 165px;
-  padding: 22px;
+  padding: 23px 20px;
   border: 1px solid #39352c;
   border-radius: 14px;
-  background: #1b1b1b;
-  box-shadow: 0 6px 18px rgb(0 0 0 / 12%);
-  transition: transform 0.25s ease, border-color 0.25s ease,
-    box-shadow 0.25s ease;
+  background: linear-gradient(145deg, #202020, #181818);
+  box-shadow: 0 8px 22px rgb(0 0 0 / 13%);
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
 }
 
-.grid.grid-cols-2 > div:hover {
+.grid.grid-cols-2.md\:grid-cols-4 > div:hover {
   transform: translateY(-4px);
-  border-color: #a17b24;
-  box-shadow: 0 12px 24px rgb(0 0 0 / 22%);
+  border-color: #a78229;
+  box-shadow: 0 12px 26px rgb(0 0 0 / 22%);
 }
 
-/* Número y nombre de mesa */
-.grid.grid-cols-2 > div p:first-child {
-  margin: 0 0 14px;
-  color: #f2b51d;
-  font-size: 22px;
+.grid.grid-cols-2.md\:grid-cols-4 > div p:first-child {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 21px;
   font-weight: 800;
-  letter-spacing: -0.3px;
 }
 
-/* Capacidad */
-.grid.grid-cols-2 > div p:nth-child(2) {
-  margin: 0;
-  color: #c5c0b6 !important;
+.grid.grid-cols-2.md\:grid-cols-4 > div p:nth-child(2) {
+  margin: 0 0 17px;
+  color: #bdb8ad;
   font-size: 14px;
-  line-height: 1.6;
 }
 
-/* Estado de la mesa */
-.grid.grid-cols-2 > div p:last-child {
-  display: inline-block;
-  margin: 14px 0 0;
-  padding: 5px 10px;
-  border: 1px solid #4c422b;
+/* Estado de cada mesa */
+.grid.grid-cols-2.md\:grid-cols-4 > div p:last-child {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 11px;
+  margin: 0;
+  border: 1px solid #494235;
   border-radius: 20px;
-  background: #29251d;
+  background: #29251b;
   color: #f2b51d;
   font-size: 12px;
   font-weight: 700;
   text-transform: capitalize;
 }
 
-/* Elementos generales */
-button {
-  cursor: pointer;
+/* Mensaje cuando todavía no hay mesas */
+p.text-gray-500 {
+  padding: 30px 20px;
+  border: 1px dashed #494235;
+  border-radius: 12px;
+  background: #191919;
+  color: #c0bcb2;
+  text-align: center;
 }
 
-@media (max-width: 900px) {
+/* Tablets */
+@media (max-width: 950px) {
   :host {
     padding: 32px 22px 45px;
   }
 
-  .grid.grid-cols-2 {
+  .grid.grid-cols-2.md\:grid-cols-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 600px) {
-  :host {
-    padding: 26px 16px 40px;
-  }
-
-  h2 {
-    margin-bottom: 24px;
-    font-size: 32px;
   }
 
   .grid.grid-cols-3 {
-    grid-template-columns: 1fr;
     gap: 12px;
-    margin-bottom: 28px;
+  }
+}
+
+/* Celulares */
+@media (max-width: 600px) {
+  :host {
+    padding: 26px 15px 35px;
+  }
+
+  h2 {
+    margin-bottom: 23px;
+    font-size: 31px;
+  }
+
+  .grid.grid-cols-3 {
+    gap: 8px;
+    margin-bottom: 25px;
   }
 
   .grid.grid-cols-3 > div {
-    min-height: 115px;
-    padding: 20px 22px;
+    padding: 15px 10px;
+    border-radius: 10px;
+  }
+
+  .grid.grid-cols-3 > div p:first-child {
+    font-size: 11px;
   }
 
   .grid.grid-cols-3 > div p:last-child {
-    margin-top: 10px;
-    font-size: 34px;
+    font-size: 26px;
   }
 
-  .grid.grid-cols-2 {
+  :host > div.border.rounded {
+    padding: 18px;
+    margin-bottom: 32px;
+  }
+
+  form > div.grid {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 17px;
+    margin-bottom: 22px;
   }
 
-  .grid.grid-cols-2 > div {
-    min-height: 140px;
+  form > button[type="submit"] {
+    width: 100%;
+  }
+
+  .grid.grid-cols-2.md\:grid-cols-4 {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  .grid.grid-cols-2.md\:grid-cols-4 > div {
+    min-height: auto;
     padding: 20px;
   }
 }

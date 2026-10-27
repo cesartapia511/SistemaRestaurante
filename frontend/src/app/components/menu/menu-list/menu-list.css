@@ -1,46 +1,189 @@
+
 :host {
   display: block;
-  max-width: 1280px;
-  min-height: calc(100vh - 82px);
+  width: 100%;
+  max-width: 1440px;
+  min-height: calc(100vh - 72px);
   margin: 0 auto;
-  padding: 44px 32px;
+  padding: 40px clamp(18px, 4vw, 48px) 60px;
   color: #f5f2eb;
+  background: #111111;
 }
 
+/* Títulos principales */
 h2 {
-  margin: 0 0 28px;
+  margin: 0 0 30px;
   color: #f2b51d;
-  font-size: clamp(30px, 4vw, 44px);
+  font-size: clamp(30px, 4vw, 42px);
   font-weight: 800;
+  line-height: 1.2;
   letter-spacing: -1px;
 }
 
-input[type="text"] {
+h3 {
+  color: #f5f2eb;
+  font-weight: 700;
+}
+
+/* Panel del formulario */
+:host > div.border.rounded {
+  padding: clamp(20px, 3vw, 30px);
+  margin-bottom: 42px;
+  border: 1px solid #39352c;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #202020, #181818);
+  box-shadow: 0 12px 30px rgb(0 0 0 / 18%);
+}
+
+:host > div.border.rounded > h3 {
+  margin: 0 0 24px;
+  color: #f2b51d;
+  font-size: 21px;
+}
+
+/* Distribución de los campos del formulario */
+form > div.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-bottom: 20px;
+}
+
+form > div.grid > div,
+form > div.mb-4 {
+  min-width: 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 9px;
+  color: #e7e2d8;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Inputs, selector y descripción */
+input[type="text"],
+input[type="url"],
+input[type="number"],
+select,
+textarea {
   display: block;
   width: 100%;
-  max-width: 520px;
-  min-height: 50px;
-  margin-bottom: 26px;
-  padding: 13px 17px;
-  border: 1px solid #39352c;
-  border-radius: 10px;
+  min-width: 0;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1px solid #403c33;
+  border-radius: 9px;
   outline: none;
-  background: #1b1b1b;
-  color: #ffffff;
-  font-size: 15px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #121212;
+  color: #f5f2eb;
+  font-family: inherit;
+  font-size: 14px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
-input[type="text"]::placeholder {
-  color: #99958b;
+textarea {
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.6;
 }
 
-input[type="text"]:focus {
+input::placeholder,
+textarea::placeholder {
+  color: #8d897f;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
   border-color: #f2b51d;
   box-shadow: 0 0 0 3px rgb(242 181 29 / 12%);
 }
 
+select {
+  cursor: pointer;
+}
 
+select option {
+  background: #1b1b1b;
+  color: #f5f2eb;
+}
+
+/* Botones */
+button {
+  font-family: inherit;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+form button[type="submit"] {
+  min-height: 46px;
+  padding: 12px 22px;
+  border: 1px solid #f2b51d;
+  border-radius: 9px;
+  background: #f2b51d;
+  color: #171717;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 5px 15px rgb(242 181 29 / 12%);
+}
+
+form button[type="submit"]:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #ffd04d;
+  box-shadow: 0 8px 20px rgb(242 181 29 / 18%);
+}
+
+form button[type="submit"]:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+/* Mensajes de confirmación y error */
+p[role="status"],
+p[role="alert"] {
+  padding: 12px 15px;
+  margin-top: 16px;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+p[role="status"] {
+  border: 1px solid #285b40;
+  background: #172a20;
+  color: #91e0ac;
+}
+
+p[role="alert"] {
+  border: 1px solid #693333;
+  background: #301b1b;
+  color: #ffaaaa;
+}
+
+/* Sección de platillos */
+h3.text-xl {
+  margin: 0 0 20px;
+  font-size: 23px;
+  letter-spacing: -0.3px;
+}
+
+/* Buscador: se identifica por su posición antes de los filtros */
+h3.text-xl + input[type="text"] {
+  max-width: 560px;
+  min-height: 50px;
+  margin-bottom: 22px;
+  padding-left: 17px;
+}
+
+/* Categorías */
 div.flex.flex-wrap {
   display: flex;
   flex-wrap: wrap;
@@ -49,14 +192,14 @@ div.flex.flex-wrap {
 }
 
 div.flex.flex-wrap button {
-  padding: 10px 18px;
+  min-height: 40px;
+  padding: 9px 17px;
   border: 1px solid #39352c;
-  border-radius: 8px;
-  background: #202020;
+  border-radius: 9px;
+  background: #1d1d1d;
   color: #e9e5dc;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  transition: 0.2s ease;
 }
 
 div.flex.flex-wrap button:hover {
@@ -64,56 +207,92 @@ div.flex.flex-wrap button:hover {
   color: #f2b51d;
 }
 
-
 div.flex.flex-wrap button.bg-blue-500 {
   border-color: #f2b51d;
   background: #f2b51d;
   color: #171717;
 }
 
-.grid {
+/* Cuadrícula de productos */
+.grid.grid-cols-1.md\:grid-cols-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
 }
 
-.grid > div {
+/* Tarjeta individual */
+.grid.grid-cols-1.md\:grid-cols-3 > div {
+  min-width: 0;
   overflow: hidden;
-  padding: 24px;
+  padding: 0 0 22px;
   border: 1px solid #34312a;
-  border-radius: 14px;
+  border-radius: 15px;
   background: #1b1b1b;
   box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
-  transition: transform 0.25s, border-color 0.25s;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.grid > div:hover {
+.grid.grid-cols-1.md\:grid-cols-3 > div:hover {
   transform: translateY(-4px);
-  border-color: #9b7520;
+  border-color: #a78229;
+  box-shadow: 0 14px 30px rgb(0 0 0 / 25%);
 }
 
-.grid h3 {
-  margin: 0 0 12px;
+/* Fotografía del platillo */
+.grid.grid-cols-1.md\:grid-cols-3 > div > img,
+.grid.grid-cols-1.md\:grid-cols-3 > div > div {
+  display: flex;
+  width: 100%;
+  height: 220px;
+  margin: 0 0 20px;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.grid.grid-cols-1.md\:grid-cols-3 > div > div {
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #28251e, #171717);
+  color: #a8a195;
+  font-size: 13px;
+}
+
+/* Texto dentro de las tarjetas */
+.grid.grid-cols-1.md\:grid-cols-3 > div > h3,
+.grid.grid-cols-1.md\:grid-cols-3 > div > p {
+  margin-right: 21px;
+  margin-left: 21px;
+}
+
+.grid.grid-cols-1.md\:grid-cols-3 > div > h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
   color: #ffffff;
-  font-size: 21px;
-  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.4;
 }
 
-.grid p {
+.grid.grid-cols-1.md\:grid-cols-3 > div > p {
   color: #b8b4aa;
+  font-size: 13px;
   line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
-.grid p:last-child {
-  margin-top: 18px;
+.grid.grid-cols-1.md\:grid-cols-3 > div > p:last-child {
+  margin-top: 16px;
+  margin-bottom: 0;
   color: #f2b51d;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 800;
 }
 
-
+/* Estado sin resultados */
 p.text-gray-500 {
-  padding: 32px 20px;
+  padding: 30px 20px;
   border: 1px dashed #494235;
   border-radius: 12px;
   background: #191919;
@@ -121,44 +300,111 @@ p.text-gray-500 {
   text-align: center;
 }
 
-
-@media (max-width: 900px) {
+/* Tablets */
+@media (max-width: 950px) {
   :host {
-    padding: 32px 22px;
+    padding: 32px 22px 45px;
   }
 
-  .grid {
+  .grid.grid-cols-1.md\:grid-cols-3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .grid.grid-cols-1.md\:grid-cols-3 > div > img,
+  .grid.grid-cols-1.md\:grid-cols-3 > div > div {
+    height: 200px;
   }
 }
 
+/* Celulares */
 @media (max-width: 600px) {
   :host {
-    padding: 28px 16px;
+    padding: 26px 15px 35px;
   }
 
   h2 {
-    margin-bottom: 22px;
+    margin-bottom: 23px;
+    font-size: 31px;
   }
 
-  input[type="text"] {
+  :host > div.border.rounded {
+    padding: 18px;
+    margin-bottom: 32px;
+  }
+
+  form > div.grid {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  form button[type="submit"] {
+    width: 100%;
+  }
+
+  h3.text-xl {
+    font-size: 21px;
+  }
+
+  h3.text-xl + input[type="text"] {
     max-width: none;
   }
 
   div.flex.flex-wrap {
     gap: 8px;
+    margin-bottom: 22px;
   }
 
   div.flex.flex-wrap button {
     padding: 9px 12px;
   }
 
-  .grid {
+  .grid.grid-cols-1.md\:grid-cols-3 {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 18px;
   }
 
-  .grid > div {
-    padding: 20px;
+  .grid.grid-cols-1.md\:grid-cols-3 > div > img,
+  .grid.grid-cols-1.md\:grid-cols-3 > div > div {
+    height: 230px;
+  }
+}
+
+/* Mejor separación entre descripción y botón */
+form > div.mb-4 {
+  margin-top: 8px;
+  margin-bottom: 28px;
+}
+
+form > button[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 165px;
+  min-height: 48px;
+  margin-top: 4px;
+  padding: 14px 24px;
+  border-radius: 10px;
+  letter-spacing: 0.2px;
+}
+
+/* Evita que los mensajes queden pegados al botón */
+form > p[role="status"],
+form > p[role="alert"] {
+  margin-top: 20px;
+}
+
+/* Evita que el formulario se deforme en pantallas pequeñas */
+form > div.grid > div {
+  min-width: 0;
+}
+
+@media (max-width: 600px) {
+  form > div.mb-4 {
+    margin-bottom: 24px;
+  }
+
+  form > button[type="submit"] {
+    width: 100%;
   }
 }

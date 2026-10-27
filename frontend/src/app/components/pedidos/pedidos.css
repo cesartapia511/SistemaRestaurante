@@ -1,258 +1,424 @@
+
 :host {
   display: block;
-  max-width: 1280px;
+  width: 100%;
+  max-width: 1440px;
+  min-height: calc(100vh - 72px);
   margin: 0 auto;
-  padding: 40px 32px 60px;
+  padding: 40px clamp(18px, 4vw, 48px) 60px;
+  background: #111111;
   color: #f5f2eb;
 }
 
+/* Título principal */
 h2 {
-  margin: 0 0 28px;
+  margin: 0 0 30px;
   color: #f2b51d;
   font-size: clamp(30px, 4vw, 42px);
   font-weight: 800;
-  letter-spacing: -0.8px;
+  line-height: 1.2;
+  letter-spacing: -1px;
 }
 
 h3 {
-  margin: 0 0 20px;
-  color: #f2b51d;
-  font-size: 25px;
-  font-weight: 750;
+  color: #f5f2eb;
+  font-weight: 700;
 }
 
-/* Etiquetas y campos */
+/* Panel para registrar al cliente */
+:host > div.border.rounded {
+  padding: clamp(20px, 3vw, 30px);
+  margin-bottom: 28px;
+  border: 1px solid #39352c;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #202020, #181818);
+  box-shadow: 0 10px 28px rgb(0 0 0 / 18%);
+}
 
+:host > div.border.rounded > h3 {
+  margin: 0 0 24px;
+  color: #f2b51d;
+  font-size: 21px;
+}
+
+/* Formulario de cliente */
+form > div.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+form > div.grid > div {
+  min-width: 0;
+}
+
+/* Etiquetas */
 label {
   display: block;
   margin-bottom: 8px;
-  color: #e9e5dc;
+  color: #e7e2d8;
   font-size: 14px;
   font-weight: 600;
 }
 
-input {
+/* Campos: incluye el input de Cliente que no declara type */
+input,
+select,
+textarea {
+  display: block;
   width: 100%;
-  min-height: 48px;
-  padding: 12px 15px;
-  border: 1px solid #39352c;
+  min-width: 0;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1px solid #403c33;
   border-radius: 9px;
   outline: none;
-  background: #1b1b1b;
-  color: #ffffff;
+  background: #121212;
+  color: #f5f2eb;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-input::placeholder {
-  color: #99958b;
+input::placeholder,
+textarea::placeholder {
+  color: #8d897f;
 }
 
-input:focus {
+input:focus,
+select:focus,
+textarea:focus {
   border-color: #f2b51d;
   box-shadow: 0 0 0 3px rgb(242 181 29 / 12%);
 }
 
-.mb-3 {
-  margin-bottom: 26px;
+input:disabled,
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
-.grid.grid-cols-3 {
+/* Botones generales */
+button {
+  font-family: inherit;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Registrar cliente y guardar pedido */
+form button[type="submit"],
+button.mt-3.bg-blue-600 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 12px 22px;
+  border: 1px solid #f2b51d;
+  border-radius: 9px;
+  background: #f2b51d;
+  color: #171717;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+form button[type="submit"]:hover:not(:disabled),
+button.mt-3.bg-blue-600:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #ffd04d;
+  box-shadow: 0 7px 18px rgb(242 181 29 / 15%);
+}
+
+/* Mensajes de éxito y error */
+p[role="status"],
+p[role="alert"] {
+  padding: 12px 15px;
+  margin-top: 16px;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+p[role="status"] {
+  border: 1px solid #285b40;
+  background: #172a20;
+  color: #91e0ac;
+}
+
+p[role="alert"] {
+  border: 1px solid #693333;
+  background: #301b1b;
+  color: #ffaaaa;
+}
+
+/* Separación entre las secciones del pedido */
+:host > div.mb-3 {
+  margin-bottom: 24px;
+}
+
+:host > div.mb-3 > label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Selección de mesas */
+:host > div.mb-3 > div.grid.grid-cols-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
-.grid.grid-cols-3 button {
-  min-height: 76px;
+:host > div.mb-3 > div.grid.grid-cols-3 > button {
+  min-height: 70px;
   padding: 14px;
-  border: 1px solid #39352c;
+  border: 1px solid #403c33;
   border-radius: 10px;
-  background: #1b1b1b;
+  background: #1d1d1d;
   color: #f5f2eb;
-  transition: 0.2s ease;
+  font-size: 14px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
-.grid.grid-cols-3 button:hover {
+:host > div.mb-3 > div.grid.grid-cols-3 > button:hover:not(:disabled) {
   border-color: #f2b51d;
+  background: #28241a;
 }
 
-.flex.flex-wrap {
+/* Mesa seleccionada */
+:host > div.mb-3 > div.grid.grid-cols-3 > button.ring-2 {
+  border: 2px solid #f2b51d;
+  background: #302719;
+  color: #ffd04d;
+  box-shadow: 0 0 0 2px rgb(242 181 29 / 10%);
+}
+
+/* Lista de platillos disponibles para agregar */
+:host > div.mb-3 > div.flex.flex-wrap {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
-.flex.flex-wrap button {
+
+:host > div.mb-3 > div.flex.flex-wrap > button {
+  min-height: 44px;
   padding: 11px 15px;
-  border: 1px solid #484034;
-  border-radius: 8px;
-  background: #24221e;
+  border: 1px solid #403c33;
+  border-radius: 9px;
+  background: #1e1e1e;
   color: #f5f2eb;
-  transition: 0.2s ease;
-}
-.flex.flex-wrap button:hover {
-  border-color: #f2b51d;
-  color: #f2b51d;
+  font-size: 13px;
+  font-weight: 600;
 }
 
-table {
-  width: 100%;
-  margin-top: 24px;
-  border-collapse: collapse;
-  overflow: hidden;
-  border: 1px solid #39352c;
-  border-radius: 10px;
-  background: #1b1b1b;
+:host > div.mb-3 > div.flex.flex-wrap > button:hover:not(:disabled) {
+  border-color: #f2b51d;
+  background: #29251b;
+  color: #ffd04d;
 }
+
+/* Tabla de detalles del pedido */
+table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 24px;
+  border: 1px solid #39352c;
+  border-radius: 12px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #1a1a1a;
+}
+
 thead {
-  background: #29251d !important;
+  background: #28251e;
   color: #f2b51d;
 }
 
 th {
+  padding: 15px 16px;
   font-size: 13px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
-th,
 td {
-  padding: 15px 14px;
-  border-bottom: 1px solid #34312a;
+  padding: 14px 16px;
+  border-top: 1px solid #35312a;
+  color: #e8e4dc;
+  font-size: 14px;
 }
 
 tbody tr:hover {
-  background: #24221e;
+  background: #22211d;
 }
 
 tfoot {
-  background: #29251d;
+  background: #24221c;
+}
+
+tfoot td {
   color: #f2b51d;
-}
-
-td button {
-  border: 0;
-  background: transparent;
-  color: #ff7777;
-  font-weight: 600;
-}
-
-td button:hover {
-  color: #ffaaaa;
-}
-
-
-button.bg-blue-600 {
-  display: inline-block;
-  margin-top: 22px;
-  padding: 13px 23px;
-  border: 1px solid #f2b51d;
-  border-radius: 8px;
-  background: #f2b51d;
-  color: #171717;
   font-weight: 800;
-  transition: 0.2s ease;
 }
 
-button.bg-blue-600:hover {
-  background: #ffd15c;
-  transform: translateY(-1px);
+td button.text-red-600 {
+  padding: 7px 10px;
+  border: 1px solid #693333;
+  border-radius: 7px;
+  background: #301b1b;
+  color: #ffaaaa;
+  font-size: 12px;
+  font-weight: 700;
 }
 
+td button.text-red-600:hover:not(:disabled) {
+  background: #512424;
+}
+
+/* Separador y pedidos registrados */
 hr {
-  margin: 44px 0;
+  height: 1px;
+  margin: 38px 0;
   border: 0;
-  border-top: 1px solid #39352c;
+  background: #39352c;
+}
+
+h3.text-xl {
+  margin: 0 0 20px;
+  color: #f2b51d;
+  font-size: 23px;
 }
 
 ul.space-y-2 {
   display: grid;
-  gap: 12px;
-  margin: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
   padding: 0;
+  margin: 0;
   list-style: none;
 }
 
-ul.space-y-2 li {
-  padding: 19px;
+ul.space-y-2 > li {
+  min-width: 0;
+  padding: 20px;
   border: 1px solid #39352c;
-  border-radius: 11px;
-  background: #1b1b1b;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #202020, #181818);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 12%);
 }
 
-ul.space-y-2 li .flex {
+ul.space-y-2 > li > div:first-child {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  align-items: center;
   gap: 12px;
+  margin-bottom: 12px;
 }
 
-ul.space-y-2 li .text-sm {
+ul.space-y-2 > li > div:first-child > span:first-child {
+  color: #f5f2eb;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+ul.space-y-2 > li > div:first-child > span:last-child {
+  flex-shrink: 0;
+  padding: 5px 9px;
+  border: 1px solid #51462b;
+  border-radius: 7px;
+  background: #302719;
+  color: #ffd04d;
+  font-size: 12px;
+}
+
+ul.space-y-2 > li > div:last-child {
   color: #b8b4aa;
   font-size: 13px;
 }
 
-ul.space-y-2 li strong {
+ul.space-y-2 strong {
   color: #f2b51d;
 }
 
-.text-red-600 {
-  color: #ff7777;
-}
-
+/* Estados vacíos */
 p.text-gray-500 {
-  padding: 22px;
+  padding: 25px 20px;
   border: 1px dashed #494235;
-  border-radius: 10px;
-  color: #b8b4aa;
+  border-radius: 12px;
+  background: #191919;
+  color: #c0bcb2;
   text-align: center;
 }
 
+/* Tablets */
 @media (max-width: 850px) {
   :host {
     padding: 30px 22px 45px;
   }
 
-  .grid.grid-cols-3 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+  ul.space-y-2 {
+    grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 520px) {
+/* Celulares */
+@media (max-width: 600px) {
   :host {
-    padding: 25px 15px 40px;
+    padding: 25px 15px 35px;
   }
 
   h2 {
-    font-size: 30px;
+    margin-bottom: 23px;
+    font-size: 31px;
   }
 
-  h3 {
-    font-size: 22px;
+  :host > div.border.rounded {
+    padding: 18px;
+    margin-bottom: 25px;
   }
 
-  .grid.grid-cols-3 {
+  form > div.grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
-  .grid.grid-cols-3 button {
-    min-height: 58px;
-  }
-
-  .flex.flex-wrap button {
+  form button[type="submit"] {
     width: 100%;
-    text-align: left;
   }
 
-  ul.space-y-2 li {
-    padding: 14px;
+  :host > div.mb-3 > div.grid.grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
   }
 
-  ul.space-y-2 li .flex {
-    align-items: flex-start;
-    flex-direction: column;
+  :host > div.mb-3 > div.grid.grid-cols-3 > button {
+    padding: 11px 8px;
+    font-size: 12px;
+  }
+
+  :host > div.mb-3 > div.flex.flex-wrap > button {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th,
+  td {
+    padding: 11px 10px;
+  }
+
+  ul.space-y-2 > li {
+    padding: 16px;
+  }
+
+  ul.space-y-2 > li > div:first-child {
+    flex-wrap: wrap;
   }
 }

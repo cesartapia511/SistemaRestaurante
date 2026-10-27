@@ -1,19 +1,38 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
+
+:root {
+  --bg: #11110f;
+  --surface: #1b1a17;
+  --surface-hover: #24221d;
+  --gold: #d9ad50;
+  --gold-light: #f1cf7a;
+  --text: #f6f1e7;
+  --muted: #aaa397;
+  --border: #353127;
+  --success: #77c99b;
+  --danger: #ed8980;
+}
+
 * {
   box-sizing: border-box;
 }
 
 html {
   min-height: 100%;
-  background: #111111;
+  background: var(--bg);
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: #111111;
-  color: #f5f2eb;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
+  background:
+    radial-gradient(ellipse at 50% -20%, #302617 0, transparent 50%),
+    var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', Arial, sans-serif;
+  font-size: 15px;
   line-height: 1.6;
 }
 
@@ -36,4 +55,213 @@ a {
 img {
   display: block;
   max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text);
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1.25;
+}
+
+h1,
+h2 {
+  margin-top: 0;
+}
+
+h2 {
+  margin-bottom: 26px;
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  letter-spacing: -0.5px;
+}
+
+h2::after {
+  display: block;
+  width: 54px;
+  height: 3px;
+  margin-top: 12px;
+  border-radius: 4px;
+  background: var(--gold);
+  content: '';
+}
+
+/* Contenido y superficies */
+main,
+main > div {
+  min-width: 0;
+}
+
+body .bg-white,
+body .bg-gray-50,
+body .bg-gray-100 {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+body .shadow,
+body .shadow-sm,
+body .shadow-md,
+body .shadow-lg {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18) !important;
+}
+
+body .border,
+body [class*="border-gray"] {
+  border-color: var(--border) !important;
+}
+
+body .rounded,
+body .rounded-lg,
+body .rounded-xl,
+body .rounded-2xl {
+  border-radius: 12px;
+}
+
+/* Textos auxiliares */
+body .text-gray-500,
+body .text-gray-600,
+body .text-gray-700,
+body .text-gray-800,
+body .text-black {
+  color: var(--muted) !important;
+}
+
+/* Formularios */
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 11px 13px;
+  border: 1px solid #454034;
+  border-radius: 8px;
+  outline: none;
+  background: #141410;
+  color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #817b70;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(217, 173, 80, 0.12);
+}
+
+select option {
+  background: #1b1a17;
+  color: var(--text);
+}
+
+label {
+  color: #e5dfd3;
+  font-weight: 600;
+}
+
+/* Botones */
+button {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+body .bg-blue-700,
+body .bg-blue-600,
+body .bg-blue-500 {
+  background: var(--gold) !important;
+  color: #17130b !important;
+}
+
+body .bg-blue-700:hover,
+body .bg-blue-600:hover,
+body .bg-blue-500:hover {
+  background: var(--gold-light) !important;
+}
+
+body .bg-green-600,
+body .bg-green-700 {
+  background: #286b4c !important;
+  color: #ffffff !important;
+}
+
+body .bg-red-600,
+body .bg-red-700 {
+  background: #8b3933 !important;
+  color: #ffffff !important;
+}
+
+/* Tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #252219;
+}
+
+th {
+  padding: 13px 15px;
+  color: var(--gold-light);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+td {
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--border);
+  color: #e5dfd3;
+}
+
+tbody tr:hover {
+  background: rgba(217, 173, 80, 0.045);
+}
+
+/* Alertas */
+[role="alert"] {
+  color: var(--danger);
+}
+
+[role="status"] {
+  color: var(--success);
+}
+
+/* Imágenes */
+img {
+  object-fit: cover;
+}
+
+/* Pantallas pequeñas */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  th,
+  td {
+    padding: 10px 8px;
+  }
+
+  table {
+    font-size: 13px;
+  }
 }

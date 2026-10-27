@@ -1,123 +1,129 @@
+
 :host {
   display: block;
-  max-width: 1280px;
-  min-height: calc(100vh - 82px);
+  width: 100%;
+  max-width: 1440px;
+  min-height: calc(100vh - 72px);
   margin: 0 auto;
-  padding: 42px 32px 60px;
+  padding: 40px clamp(18px, 4vw, 48px) 60px;
   color: #f5f2eb;
+  background: #111111;
 }
 
+/* Título principal */
 h2 {
   margin: 0 0 32px;
   color: #f2b51d;
-  font-size: clamp(32px, 4vw, 44px);
+  font-size: clamp(30px, 4vw, 42px);
   font-weight: 800;
-  letter-spacing: -1px;
   line-height: 1.2;
+  letter-spacing: -1px;
 }
 
-.grid {
+/* Cuadrícula de indicadores */
+.grid.grid-cols-1 {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 22px;
 }
 
-.grid > div {
+/* Tarjetas de estadísticas */
+.grid.grid-cols-1 > div {
   position: relative;
+  min-width: 0;
+  min-height: 170px;
   overflow: hidden;
-  min-height: 165px;
-  padding: 25px 23px;
+  padding: 26px 24px;
   border: 1px solid #39352c;
-  border-radius: 15px;
-  background: linear-gradient(145deg, #22211e, #181818);
-  box-shadow: 0 8px 22px rgb(0 0 0 / 16%);
-  transition: transform 0.25s ease, border-color 0.25s ease,
+  border-radius: 16px;
+  background: linear-gradient(145deg, #222222, #181818);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 16%);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
     box-shadow 0.25s ease;
 }
 
-.grid > div::before {
-  content: "";
+/* Línea decorativa superior */
+.grid.grid-cols-1 > div::before {
   position: absolute;
   top: 0;
   left: 0;
-  width: 4px;
-  height: 100%;
+  width: 100%;
+  height: 3px;
   background: #f2b51d;
+  content: "";
 }
 
-.grid > div p:first-child {
+/* Efecto al pasar el cursor */
+.grid.grid-cols-1 > div:hover {
+  transform: translateY(-4px);
+  border-color: #a78229;
+  box-shadow: 0 14px 30px rgb(0 0 0 / 24%);
+}
+
+/* Nombre de cada indicador */
+.grid.grid-cols-1 > div > p:first-child {
   margin: 0 0 22px;
-  color: #c9c4b8 !important;
-  font-size: 13px;
+  color: #c5c0b5;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-.grid > div p:last-child {
+/* Valor destacado */
+.grid.grid-cols-1 > div > p:last-child {
   margin: 0;
-  color: #f2b51d !important;
-  font-size: clamp(30px, 3vw, 38px);
+  color: #f2b51d;
+  font-size: clamp(26px, 2.5vw, 34px);
   font-weight: 800;
   line-height: 1.2;
-  letter-spacing: -0.8px;
   overflow-wrap: anywhere;
-  font-variant-numeric: tabular-nums;
 }
 
-.grid > div:nth-child(1)::before {
-  background: #f2b51d;
-}
-
-.grid > div:nth-child(2)::before {
-  background: #57bd88;
-}
-
-.grid > div:nth-child(3)::before {
-  background: #e46f6f;
-}
-
-.grid > div:nth-child(4)::before {
-  background: #82aaff;
-}
-
-.grid > div:hover {
-  transform: translateY(-4px);
-  border-color: #9b7520;
-  box-shadow: 0 12px 28px rgb(0 0 0 / 24%);
-}
+/* Tablets */
 @media (max-width: 1000px) {
   :host {
-    padding: 32px 22px 45px;
+    padding: 32px 24px 45px;
   }
 
-  .grid {
+  .grid.grid-cols-1 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
   }
+
+  .grid.grid-cols-1 > div {
+    min-height: 150px;
+    padding: 23px 20px;
+  }
 }
 
-@media (max-width: 600px) {
+/* Celulares */
+@media (max-width: 560px) {
   :host {
-    padding: 26px 16px 40px;
+    padding: 26px 16px 35px;
   }
 
   h2 {
     margin-bottom: 24px;
-    font-size: 32px;
+    font-size: 31px;
   }
 
-  .grid {
+  .grid.grid-cols-1 {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 15px;
   }
 
-  .grid > div {
-    min-height: 135px;
+  .grid.grid-cols-1 > div {
+    min-height: 125px;
     padding: 22px;
   }
 
-  .grid > div p:first-child {
+  .grid.grid-cols-1 > div > p:first-child {
     margin-bottom: 14px;
+  }
+
+  .grid.grid-cols-1 > div > p:last-child {
+    font-size: 29px;
   }
 }
